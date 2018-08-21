@@ -6,7 +6,7 @@ const config = require("./config");
 const app = new Koa();
 
 const { token } = config;
-const products = [];
+
 
 app.use(async ctx => {
     const res = await fetch('https://api.baselinker.com/connector.php',
@@ -17,6 +17,7 @@ app.use(async ctx => {
     });
     const json = await res.json();
 
+    const products = [];
     json.orders.map((prods) => {
         prods.products.map( (prods)=> {
             products.push(prods)
@@ -24,7 +25,7 @@ app.use(async ctx => {
     })
 
     let eans = [];
-    products.map((prod)=>{
+    products.forEach((prod)=>{
         eans.push({
             name: prod.name,
             ean: prod.ean,
@@ -33,7 +34,32 @@ app.use(async ctx => {
 
         })
     })
-    ctx.body = eans;
+    let eansCopy = []
+    eans.map((x)=> {
+        eansCopy.push(x);
+    })
+    let allProducts = [];
+    for (let i = 0; i < eans.length; i++) {
+        let product = {
+            ean: eans[i].ean,
+            quantity: 0
+        }
+        for (let j = 0; j < eansCopy.length; j++) {
+            if(eans[i].ean === product.ean){
+                product.quantity += eans[j].quantity
+            }
+        }
+        allProducts.push(product);
+    }
+    // eans.map((prod)=> {
+    //     eans.forEach((all)=>{
+    //         if(prod.ean === all.ean){
+    //            console.log(`${all.ean}:${prod.quantity+all.quantity}`)
+    //         }
+    //     })
+    //     allProducts.push(prod);
+    // })
+    ctx.body = allProducts;
 })
 
 app.listen(3000,() => {
