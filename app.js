@@ -37,36 +37,19 @@ app.use(async ctx => {
   });
 
   let allProducts = [];
-  for (let i = 0; i < eans.length; i++) {
-    let productCopy = {
-      ean: eans[i].ean,
-      quantity: eans[i].quantity
-    };
 
-    if (allProducts.length === 0) {
-      allProducts.push(productCopy);
+  eans.map(product => {
+    let isInArray = allProducts.find(element => {
+      return element.ean === product.ean;
+    });
+
+    if (isInArray) {
+      isInArray.quantity += product.quantity;
     } else {
-      for (let j = 0; j < allProducts.length; j++) {
-        if (allProducts[j].ean === productCopy.ean) {
-          allProducts[j].quantity += productCopy.quantity;
-          break;
-        } else {
-          allProducts.push(productCopy);
-          break;
-        }
-        console.log(productCopy);
-      }
+      allProducts.push(product);
     }
-  }
+  });
 
-  // eans.map((prod)=> {
-  //     eans.forEach((all)=>{
-  //         if(prod.ean === all.ean){
-  //            console.log(`${all.ean}:${prod.quantity+all.quantity}`)
-  //         }
-  //     })
-  //     allProducts.push(prod);
-  // })
   ctx.body = allProducts;
 });
 
