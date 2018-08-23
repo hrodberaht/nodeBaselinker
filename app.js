@@ -2,6 +2,7 @@ const Koa = require("koa");
 const fetch = require("node-fetch");
 
 const config = require("./config");
+const { countQuantity } = require("./lib/myLib");
 
 const app = new Koa();
 
@@ -36,21 +37,7 @@ app.use(async ctx => {
     });
   });
 
-  let allProducts = [];
-
-  eans.map(product => {
-    let isInArray = allProducts.find(element => {
-      return element.ean === product.ean;
-    });
-
-    if (isInArray) {
-      isInArray.quantity += product.quantity;
-    } else {
-      allProducts.push(product);
-    }
-  });
-
-  ctx.body = allProducts;
+  ctx.body = countQuantity(eans);
 });
 
 app.listen(3000, () => {
