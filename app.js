@@ -24,7 +24,7 @@ app.use(async ctx => {
   });
 
   if (products.length === 0) {
-    return (ctx.body = { message: "Brak produktów w katgori" });
+    return (ctx.body = { message: "Brak produktów w katgorii" });
   }
 
   let eans = [];
@@ -37,7 +37,7 @@ app.use(async ctx => {
     });
   });
 
-  ctx.body = countQuantity(eans);
+  ctx.body = eans;
 });
 
 app.listen(3000, () => {
