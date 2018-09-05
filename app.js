@@ -1,12 +1,10 @@
 const Koa = require("koa");
 const fetch = require("node-fetch");
 
-const config = require("./config");
+const { token } = require("./config");
 const { countQuantity } = require("./lib/myLib");
 
 const app = new Koa();
-
-const { token } = config;
 
 app.use(async ctx => {
   const res = await fetch("https://api.baselinker.com/connector.php", {
@@ -37,7 +35,16 @@ app.use(async ctx => {
     });
   });
 
-  ctx.body = eans;
+  //count total price of all products
+
+  quantity = countQuantity(eans);
+
+  totalPriceOrders = 0;
+  quantity.forEach((data) => {
+    totalPriceOrders += data.totalPrice;
+  })
+
+  ctx.body = totalPriceOrders;
 });
 
 app.listen(3000, () => {

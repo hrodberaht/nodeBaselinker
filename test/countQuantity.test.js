@@ -9,7 +9,7 @@ const mock = [
   {
     name: "Pościel kołdra 120x90 90X120 poduszka do łóżeczka",
     ean: "5908249231740",
-    quantity: 2,
+    quantity: 1,
     totalPrice: 34.5
   },
   {
@@ -26,10 +26,10 @@ const mock = [
   }
 ];
 
-test("count quanity products from orders", () => {
-  expect(countQuantity(mock)[0].quantity).toBe(3);
-});
+// test("count quanity products from orders", () => {
+//   expect(countQuantity(mock)[0].quantity).toBe(2);
+// });
 
 test("count totalPrice one type product from orders", () => {
-  expect(countQuantity(mock)[0].totalPrice).toBe(88.8);
+  expect(countQuantity(mock)).toBe(69);
 });
