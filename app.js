@@ -3,6 +3,7 @@ const fetch = require("node-fetch");
 
 const { token } = require("./config");
 const { countQuantity } = require("./lib/myLib");
+const createXMLforSubiekt = require("./lib/createXMLforSubiekt");
 
 const app = new Koa();
 
@@ -21,6 +22,7 @@ app.use(async ctx => {
     });
   });
 
+
   if (products.length === 0) {
     return (ctx.body = { message: "Brak produktów w katgorii" });
   }
@@ -29,6 +31,7 @@ app.use(async ctx => {
   products.forEach(prod => {
     eans.push({
       name: prod.name,
+      vat: prod.tax_rate,
       ean: prod.ean,
       quantity: prod.quantity,
       totalPrice: prod.price_brutto * prod.quantity
@@ -44,7 +47,9 @@ app.use(async ctx => {
     totalPriceOrders += data.totalPrice;
   })
 
-  ctx.body = totalPriceOrders;
+  createXMLforSubiekt(quantity);
+
+  ctx.body = quantity;
 });
 
 app.listen(3000, () => {
