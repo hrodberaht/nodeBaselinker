@@ -49,7 +49,7 @@ app.use(async ctx => {
 
   createXMLforSubiekt(quantity);
 
-  ctx.body = quantity;
+  ctx.body = totalPriceOrders;
 });
 
 app.listen(3000, () => {
