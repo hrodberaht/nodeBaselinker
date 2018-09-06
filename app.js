@@ -15,6 +15,11 @@ app.use(async ctx => {
   });
   const json = await res.json();
 
+
+  if (json.error_message) {
+    return ctx.body = { "message": json.error_message };
+  }
+
   const products = [];
   json.orders.map(prods => {
     prods.products.map(prods => {
