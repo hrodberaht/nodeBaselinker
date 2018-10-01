@@ -1,5 +1,6 @@
 const Koa = require("koa");
 const fetch = require("node-fetch");
+const eansForUpdate = require('./lib/eans');
 
 const { token } = require("./config");
 const { countQuantity } = require("./lib/myLib");
@@ -52,6 +53,19 @@ app.use(async ctx => {
     totalPriceOrders += data.totalPrice;
   })
 
+  quantity.forEach((product) => {
+    eansForUpdate.forEach((item) => {
+      item.eans.forEach((ean) => {
+        if (ean == product.ean) {
+          console.log('ok');
+          product.ean = item.ean;
+        }
+      })
+    })
+  });
+
+
+  console.log(quantity);
   createXMLforSubiekt(quantity);
 
   ctx.body = totalPriceOrders;
