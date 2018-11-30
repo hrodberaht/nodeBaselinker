@@ -1,4 +1,4 @@
-export const products = [
+const products = [
     {
       product_id: "9001584",
       ean: "5902135016336",
@@ -25016,3 +25016,5 @@ export const products = [
       price_brutto: 5.4
     }
   ]
+
+  module.exports = products;
